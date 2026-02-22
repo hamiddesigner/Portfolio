@@ -116,13 +116,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Calendar Functionality
-    let currentDate = new Date();
-    let selectedDate = null;
-    let selectedTime = null;
     const calendarGrid = document.getElementById('calendarGrid');
-    const currentMonthDisplay = document.getElementById('currentMonth');
-    const prevMonthBtn = document.getElementById('prevMonth');
-    const nextMonthBtn = document.getElementById('nextMonth');
+    
+    if (calendarGrid) {
+        let currentDate = new Date();
+        let selectedDate = null;
+        let selectedTime = null;
+        const currentMonthDisplay = document.getElementById('currentMonth');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
     const timeSlotsView = document.getElementById('timeSlotsView');
     const bookingFormView = document.getElementById('bookingFormView');
     const selectedDateDisplay = document.getElementById('selectedDateDisplay');
@@ -417,4 +419,389 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto-select today's date and show available times
     const today = new Date();
     selectDate(today.getFullYear(), today.getMonth(), today.getDate());
+    } // End of calendar functionality check
+
+    // Password Protection Modal
+    const passwordModal = document.getElementById('passwordModal');
+    if (passwordModal) {
+        console.log('Password modal found, initializing...');
+        const modalClose = document.getElementById('modalClose');
+        const passwordForm = document.getElementById('passwordForm');
+        const requestForm = document.getElementById('requestForm');
+        const successMessage = document.getElementById('successMessage');
+        
+        const passwordFormElement = document.getElementById('passwordFormElement');
+        const requestFormElement = document.getElementById('requestFormElement');
+        
+        const requestAccessBtn = document.getElementById('requestAccessBtn');
+        const backToPasswordBtn = document.getElementById('backToPasswordBtn');
+        
+        const userNameInput = document.getElementById('userName');
+        const userPasswordInput = document.getElementById('userPassword');
+        const passwordError = document.getElementById('passwordError');
+        
+        const requestNameInput = document.getElementById('requestName');
+        const requestEmailInput = document.getElementById('requestEmail');
+        const requestCaseInput = document.getElementById('requestCase');
+        
+        const CORRECT_PASSWORD = 'demo123';
+        let currentCaseTitle = '';
+        
+        // Open modal when locked case is clicked
+        const lockedCases = document.querySelectorAll('.locked-case');
+        console.log('Found locked cases:', lockedCases.length);
+        lockedCases.forEach(caseCard => {
+            caseCard.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Locked case clicked:', this.getAttribute('data-case-title'));
+                currentCaseTitle = this.getAttribute('data-case-title');
+                requestCaseInput.value = currentCaseTitle;
+                openModal();
+            });
+        });
+        
+        // Open modal
+        function openModal() {
+            console.log('Opening modal...');
+            passwordModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                passwordForm.classList.add('show');
+            }, 50);
+        }
+        
+        // Close modal
+        function closeModal() {
+            passwordModal.classList.remove('show');
+            document.body.style.overflow = '';
+            passwordForm.classList.remove('show');
+            requestForm.classList.remove('show');
+            successMessage.classList.remove('show');
+            
+            // Reset forms
+            setTimeout(() => {
+                passwordFormElement.reset();
+                requestFormElement.reset();
+                passwordError.classList.remove('show');
+                passwordError.textContent = '';
+                userPasswordInput.parentElement.classList.remove('shake');
+                
+                // Show password form by default
+                passwordForm.classList.add('active');
+                requestForm.classList.remove('active');
+                successMessage.classList.remove('active');
+            }, 300);
+        }
+        
+        // Close modal on close button click
+        modalClose.addEventListener('click', closeModal);
+        
+        // Close modal on overlay click
+        passwordModal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && passwordModal.classList.contains('show')) {
+                closeModal();
+            }
+        });
+        
+        // Password form submission
+        passwordFormElement.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = userNameInput.value.trim();
+            const password = userPasswordInput.value;
+            
+            if (!name || !password) {
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.modal-btn-primary');
+            submitBtn.classList.add('loading');
+            
+            // Simulate validation delay
+            setTimeout(() => {
+                submitBtn.classList.remove('loading');
+                
+                if (password === CORRECT_PASSWORD) {
+                    // Correct password - close modal and redirect
+                    console.log('Access granted to:', currentCaseTitle, 'for user:', name);
+                    closeModal();
+                    // Redirect to case study page
+                    window.location.href = 'case-study-saas-analytics.html';
+                } else {
+                    // Wrong password - show error with shake animation
+                    passwordError.textContent = 'Incorrect password. Try again or request access.';
+                    passwordError.classList.add('show');
+                    userPasswordInput.parentElement.classList.add('shake');
+                    
+                    // Remove shake animation after it completes
+                    setTimeout(() => {
+                        userPasswordInput.parentElement.classList.remove('shake');
+                    }, 500);
+                    
+                    // Clear password field
+                    userPasswordInput.value = '';
+                    userPasswordInput.focus();
+                }
+            }, 800);
+        });
+        
+        // Request access button
+        requestAccessBtn.addEventListener('click', function() {
+            // Slide out password form and slide in request form
+            passwordForm.classList.add('slide-out-left');
+            
+            setTimeout(() => {
+                passwordForm.classList.remove('active', 'show', 'slide-out-left');
+                requestForm.classList.add('active', 'slide-in-right');
+                
+                // Pre-fill name if already entered
+                if (userNameInput.value.trim()) {
+                    requestNameInput.value = userNameInput.value.trim();
+                }
+                
+                setTimeout(() => {
+                    requestForm.classList.add('show');
+                    requestForm.classList.remove('slide-in-right');
+                }, 50);
+            }, 300);
+        });
+        
+        // Back to password button
+        backToPasswordBtn.addEventListener('click', function() {
+            // Slide out request form and slide in password form
+            requestForm.classList.add('slide-out-right');
+            
+            setTimeout(() => {
+                requestForm.classList.remove('active', 'show', 'slide-out-right');
+                passwordForm.classList.add('active', 'slide-in-left');
+                
+                setTimeout(() => {
+                    passwordForm.classList.add('show');
+                    passwordForm.classList.remove('slide-in-left');
+                }, 50);
+            }, 300);
+        });
+        
+        // Request form submission
+        requestFormElement.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = requestNameInput.value.trim();
+            const email = requestEmailInput.value.trim();
+            const caseTitle = requestCaseInput.value;
+            
+            if (!name || !email) {
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.modal-btn-primary');
+            submitBtn.classList.add('loading');
+            
+            // Simulate sending request
+            setTimeout(() => {
+                submitBtn.classList.remove('loading');
+                
+                // Log the request (will be connected to backend later)
+                console.log('Access request submitted:', {
+                    name: name,
+                    email: email,
+                    caseStudy: caseTitle
+                });
+                
+                // Show success message
+                requestForm.classList.add('slide-out-left');
+                
+                setTimeout(() => {
+                    requestForm.classList.remove('active', 'show', 'slide-out-left');
+                    successMessage.classList.add('active', 'slide-in-right');
+                    
+                    setTimeout(() => {
+                        successMessage.classList.add('show');
+                        successMessage.classList.remove('slide-in-right');
+                        
+                        // Auto-close modal after 3 seconds
+                        setTimeout(() => {
+                            closeModal();
+                        }, 3000);
+                    }, 50);
+                }, 300);
+            }, 1000);
+        });
+    }
+
+    // Load More Functionality
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            const hiddenCases = document.querySelectorAll('.case-card.hidden-case');
+            let count = 0;
+            
+            // Show 3 more cases
+            hiddenCases.forEach(caseCard => {
+                if (count < 3 && caseCard.classList.contains('hidden-case')) {
+                    caseCard.classList.remove('hidden-case');
+                    count++;
+                }
+            });
+            
+            // Check if there are any more hidden cases
+            const remainingHidden = document.querySelectorAll('.case-card.hidden-case');
+            if (remainingHidden.length === 0) {
+                loadMoreBtn.style.display = 'none';
+            }
+        });
+    }
+});
+
+// Contact Form Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMessage = document.getElementById('successMessage');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Clear previous errors
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+            
+            // Get form values
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                message: document.getElementById('message').value.trim()
+            };
+            
+            // Validate form
+            let isValid = true;
+            
+            if (!formData.name) {
+                showError('name', 'Please enter your name');
+                isValid = false;
+            }
+            
+            if (!formData.email) {
+                showError('email', 'Please enter your email');
+                isValid = false;
+            } else if (!isValidEmail(formData.email)) {
+                showError('email', 'Please enter a valid email');
+                isValid = false;
+            }
+            
+            if (!formData.message) {
+                showError('message', 'Please enter a message');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.classList.add('loading');
+            
+            // Simulate API call (Phase 1: console.log)
+            setTimeout(() => {
+                console.log('Form Data:', formData);
+                
+                // Hide loading state
+                submitBtn.classList.remove('loading');
+                
+                // Hide form
+                contactForm.style.display = 'none';
+                
+                // Show success message
+                successMessage.classList.add('show');
+                
+                // Reset form after showing success
+                setTimeout(() => {
+                    contactForm.reset();
+                }, 500);
+                
+            }, 1500); // Simulate network delay
+        });
+    }
+    
+    function showError(fieldId, message) {
+        const formGroup = document.getElementById(fieldId).parentElement;
+        const errorElement = document.getElementById(fieldId + 'Error');
+        
+        formGroup.classList.add('error');
+        errorElement.textContent = message;
+    }
+    
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+});
+
+// Post Page - Read More Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const readMoreBtns = document.querySelectorAll('.read-more-btn');
+    
+    readMoreBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const postCard = this.closest('.post-card');
+            postCard.classList.toggle('expanded');
+            
+            // Update button text
+            if (postCard.classList.contains('expanded')) {
+                this.textContent = 'Read less';
+            } else {
+                this.textContent = 'Read more';
+            }
+        });
+    });
+});
+
+// Post Page - Load More Posts Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const loadMorePostsBtn = document.getElementById('loadMorePostsBtn');
+    
+    if (loadMorePostsBtn) {
+        loadMorePostsBtn.addEventListener('click', function() {
+            const hiddenPosts = document.querySelectorAll('.post-card.hidden-post');
+            let count = 0;
+            
+            hiddenPosts.forEach(post => {
+                if (count < 3 && post.classList.contains('hidden-post')) {
+                    post.classList.remove('hidden-post');
+                    count++;
+                    
+                    // Add read more functionality to newly revealed posts
+                    const readMoreBtn = post.querySelector('.read-more-btn');
+                    if (readMoreBtn) {
+                        readMoreBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const postCard = this.closest('.post-card');
+                            postCard.classList.toggle('expanded');
+                            
+                            if (postCard.classList.contains('expanded')) {
+                                this.textContent = 'Read less';
+                            } else {
+                                this.textContent = 'Read more';
+                            }
+                        });
+                    }
+                }
+            });
+            
+            // Check if there are any more hidden posts
+            const remainingHiddenPosts = document.querySelectorAll('.post-card.hidden-post');
+            if (remainingHiddenPosts.length === 0) {
+                loadMorePostsBtn.style.display = 'none';
+            }
+        });
+    }
 });

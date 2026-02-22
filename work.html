@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work | Hamid Ali - Product Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="content-wrapper">
+            <!-- Navigation -->
+            <nav class="navbar">
+                <div class="nav-progress"></div>
+                <p class="nav-brand">Hamid Ali</p>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="work.html" class="nav-link active">Work</a>
+                    <a href="post.html" class="nav-link">Post</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </nav>
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-avatar">
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                        <circle cx="32" cy="32" r="32" fill="#D9D9D9"/>
+                    </svg>
+                </div>
+                <h1 class="hero-title">I'm Hamid Ali</h1>
+                <p class="hero-subtitle">Product designer at The AIME Group</p>
+                <p class="hero-description">4+ years designing SaaS platforms, CRMs & mobile apps.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">Hire me</button>
+                    <button class="btn btn-secondary">Download CV</button>
+                </div>
+            </section>
+
+            <!-- Case Studies Section -->
+            <section class="case-studies">
+                <div class="section-header">
+                    <h2 class="section-title">Case Studies</h2>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active">All</button>
+                        <button class="filter-tab">SaaS</button>
+                        <button class="filter-tab">Mobile</button>
+                        <button class="filter-tab">Website</button>
+                    </div>
+                </div>
+
+                <!-- Case Study 1 - Unlocked -->
+                <a href="case-study-saas-analytics.html" class="case-card clickable">
+                    <div class="case-image" style="background-color: #dedef2;"></div>
+                    <div class="case-info">
+                        <h3 class="case-title">SaaS Analytics Dashboard</h3>
+                        <p class="case-date">Jan 2024 - Mar 2024</p>
+                        <p class="case-description">Redesigned a complex analytics platform, reducing task completion time by 40% through improved information architecture and data visualization.</p>
+                    </div>
+                </a>
+
+                <!-- Case Study 2 - Locked -->
+                <div class="case-card locked-case" data-case-title="FinTech Onboarding Flow">
+                    <div class="case-image" style="background-color: #d9edeb;"></div>
+                    <div class="case-info">
+                        <div class="case-title-row">
+                            <h3 class="case-title">FinTech Onboarding Flow</h3>
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M5 7V5C5 3.34315 6.34315 2 8 2C9.65685 2 11 3.34315 11 5V7" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <p class="case-date">Oct 2023 - Dec 2023</p>
+                        <p class="case-description">Streamlined user onboarding with progressive disclosure, reducing signup time by 60% while maintaining compliance requirements.</p>
+                    </div>
+                </div>
+
+                <!-- Case Study 3 - Unlocked -->
+                <a href="case-study-saas-analytics.html" class="case-card clickable">
+                    <div class="case-image" style="background-color: #f0e7ff;"></div>
+                    <div class="case-info">
+                        <h3 class="case-title">E-Commerce Mobile App</h3>
+                        <p class="case-date">Jun 2023 - Sep 2023</p>
+                        <p class="case-description">Created a seamless shopping experience with personalized recommendations, increasing conversion rate by 35%.</p>
+                    </div>
+                </a>
+
+                <!-- Case Study 4 - Locked -->
+                <div class="case-card locked-case" data-case-title="Healthcare Patient Portal">
+                    <div class="case-image" style="background-color: #fae3d9;"></div>
+                    <div class="case-info">
+                        <div class="case-title-row">
+                            <h3 class="case-title">Healthcare Patient Portal</h3>
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M5 7V5C5 3.34315 6.34315 2 8 2C9.65685 2 11 3.34315 11 5V7" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <p class="case-date">Jan 2024 - May 2024</p>
+                        <p class="case-description">Designed HIPAA-compliant patient portal with appointment scheduling, reducing administrative calls by 45%.</p>
+                    </div>
+                </div>
+
+                <!-- Case Study 5 - Unlocked -->
+                <a href="case-study-saas-analytics.html" class="case-card clickable">
+                    <div class="case-image" style="background-color: #ffe8e8;"></div>
+                    <div class="case-info">
+                        <h3 class="case-title">Restaurant Booking Platform</h3>
+                        <p class="case-date">Mar 2023 - May 2023</p>
+                        <p class="case-description">Built intuitive reservation system with real-time availability, improving table turnover by 25%.</p>
+                    </div>
+                </a>
+
+                <!-- Case Study 6 - Locked -->
+                <div class="case-card locked-case" data-case-title="Banking Dashboard">
+                    <div class="case-image" style="background-color: #e8f4f8;"></div>
+                    <div class="case-info">
+                        <div class="case-title-row">
+                            <h3 class="case-title">Banking Dashboard</h3>
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M5 7V5C5 3.34315 6.34315 2 8 2C9.65685 2 11 3.34315 11 5V7" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <p class="case-date">Feb 2024 - Apr 2024</p>
+                        <p class="case-description">Modernized enterprise banking dashboard with unified design system, improving task efficiency by 50%.</p>
+                    </div>
+                </div>
+
+                <!-- Case Study 7 - Unlocked (Hidden initially) -->
+                <a href="case-study-saas-analytics.html" class="case-card clickable hidden-case">
+                    <div class="case-image" style="background-color: #fff4e6;"></div>
+                    <div class="case-info">
+                        <h3 class="case-title">Travel Planning App</h3>
+                        <p class="case-date">Aug 2023 - Oct 2023</p>
+                        <p class="case-description">Designed collaborative trip planning tool with itinerary sharing, increasing user engagement by 55%.</p>
+                    </div>
+                </a>
+
+                <!-- Case Study 8 - Locked (Hidden initially) -->
+                <div class="case-card locked-case hidden-case" data-case-title="Insurance Claims Portal">
+                    <div class="case-image" style="background-color: #e8f5e9;"></div>
+                    <div class="case-info">
+                        <div class="case-title-row">
+                            <h3 class="case-title">Insurance Claims Portal</h3>
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M5 7V5C5 3.34315 6.34315 2 8 2C9.65685 2 11 3.34315 11 5V7" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <p class="case-date">Nov 2023 - Jan 2024</p>
+                        <p class="case-description">Streamlined insurance claims submission process, reducing processing time by 65% and improving customer satisfaction.</p>
+                    </div>
+                </div>
+
+                <!-- Case Study 9 - Unlocked (Hidden initially) -->
+                <a href="case-study-saas-analytics.html" class="case-card clickable hidden-case">
+                    <div class="case-image" style="background-color: #fce4ec;"></div>
+                    <div class="case-info">
+                        <h3 class="case-title">Fitness Tracking App</h3>
+                        <p class="case-date">May 2023 - Jul 2023</p>
+                        <p class="case-description">Created motivating workout tracker with social features, achieving 4.8 star rating and 100k+ downloads.</p>
+                    </div>
+                </a>
+
+                <!-- Case Study 10 - Locked (Hidden initially) -->
+                <div class="case-card locked-case hidden-case" data-case-title="Real Estate Platform">
+                    <div class="case-image" style="background-color: #f3e5f5;"></div>
+                    <div class="case-info">
+                        <div class="case-title-row">
+                            <h3 class="case-title">Real Estate Platform</h3>
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M5 7V5C5 3.34315 6.34315 2 8 2C9.65685 2 11 3.34315 11 5V7" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <p class="case-date">Apr 2023 - Jun 2023</p>
+                        <p class="case-description">Built comprehensive property search platform with virtual tours, increasing qualified leads by 70%.</p>
+                    </div>
+                </div>
+
+                <!-- Case Study 11 - Unlocked (Hidden initially) -->
+                <a href="case-study-saas-analytics.html" class="case-card clickable hidden-case">
+                    <div class="case-image" style="background-color: #e0f2f1;"></div>
+                    <div class="case-info">
+                        <h3 class="case-title">Project Management Tool</h3>
+                        <p class="case-date">Dec 2022 - Feb 2023</p>
+                        <p class="case-description">Designed collaborative project management suite with Kanban boards, reducing team coordination time by 45%.</p>
+                    </div>
+                </a>
+
+                <!-- Case Study 12 - Locked (Hidden initially) -->
+                <div class="case-card locked-case hidden-case" data-case-title="Education Learning Platform">
+                    <div class="case-image" style="background-color: #fff9c4;"></div>
+                    <div class="case-info">
+                        <div class="case-title-row">
+                            <h3 class="case-title">Education Learning Platform</h3>
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M5 7V5C5 3.34315 6.34315 2 8 2C9.65685 2 11 3.34315 11 5V7" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <p class="case-date">Sep 2022 - Nov 2022</p>
+                        <p class="case-description">Created interactive online learning platform with progress tracking, achieving 90% course completion rate.</p>
+                    </div>
+                </div>
+
+                <button class="load-more-btn" id="loadMoreBtn">Load More</button>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <h3 class="footer-email">hamid.designer50@gmail.com</h3>
+                <p class="footer-subtitle">Open to freelance, full-time roles, and collaborations.</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">LinkedIn</a>
+                    <a href="#" class="footer-link">Dribbble</a>
+                    <a href="#" class="footer-link">Behance</a>
+                </div>
+                <p class="footer-copyright">© 2025 Hamid Ali</p>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- Password Protection Modal -->
+    <div class="password-modal" id="passwordModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+
+            <!-- Password Form -->
+            <div class="modal-form password-form active" id="passwordForm">
+                <div class="modal-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect x="6" y="14" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M10 14V10C10 6.68629 12.6863 4 16 4C19.3137 4 22 6.68629 22 10V14" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="modal-title">Password Protected</h3>
+                <p class="modal-description">This case study is password protected. Please enter the password to access.</p>
+                
+                <form id="passwordFormElement">
+                    <input type="text" id="userName" class="modal-input" placeholder="Your name" required>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="userPassword" class="modal-input" placeholder="Enter password" required>
+                        <p class="error-message" id="passwordError"></p>
+                    </div>
+                    <button type="submit" class="modal-btn modal-btn-primary">
+                        <span class="btn-text">Unlock</span>
+                        <span class="btn-spinner"></span>
+                    </button>
+                </form>
+                
+                <button class="modal-link" id="requestAccessBtn">Request Access</button>
+            </div>
+
+            <!-- Request Access Form -->
+            <div class="modal-form request-form" id="requestForm">
+                <div class="modal-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect x="4" y="6" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M4 8L16 16L28 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="modal-title">Request Access</h3>
+                <p class="modal-description">Fill out the form below and I'll get back to you with access.</p>
+                
+                <form id="requestFormElement">
+                    <input type="text" id="requestName" class="modal-input" placeholder="Your name" required>
+                    <input type="email" id="requestEmail" class="modal-input" placeholder="your@email.com" required>
+                    <input type="hidden" id="requestCase" value="">
+                    <button type="submit" class="modal-btn modal-btn-primary">
+                        <span class="btn-text">Send Request</span>
+                        <span class="btn-spinner"></span>
+                    </button>
+                </form>
+                
+                <button class="modal-link" id="backToPasswordBtn">Back to password</button>
+            </div>
+
+            <!-- Success Message -->
+            <div class="modal-form success-message" id="successMessage">
+                <div class="modal-icon success-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+                        <path d="M10 16L14 20L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="modal-title">Thanks!</h3>
+                <p class="modal-description">I'll get back to you soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

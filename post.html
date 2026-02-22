@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post | Hamid Ali - Product Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="content-wrapper">
+            <!-- Navigation -->
+            <nav class="navbar">
+                <div class="nav-progress"></div>
+                <p class="nav-brand">Hamid Ali</p>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="work.html" class="nav-link">Work</a>
+                    <a href="post.html" class="nav-link active">Post</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </nav>
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-avatar">
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                        <circle cx="32" cy="32" r="32" fill="#D9D9D9"/>
+                    </svg>
+                </div>
+                <h1 class="hero-title">I'm Hamid Ali</h1>
+                <p class="hero-subtitle">Product designer at The AIME Group</p>
+                <p class="hero-description">4+ years designing SaaS platforms, CRMs & mobile apps.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">Hire me</button>
+                    <button class="btn btn-secondary">Download CV</button>
+                </div>
+            </section>
+
+            <!-- Posts Section -->
+            <section class="posts-section">
+                <h2 class="posts-heading">Posts</h2>
+                
+                <div class="posts-list">
+                    <article class="post-card">
+                        <div class="post-image" style="background-color: #dedef2;"></div>
+                        <div class="post-content">
+                            <h3 class="post-title">Why designers should think like product managers</h3>
+                            <p class="post-excerpt">
+                                <span class="excerpt-short">Redesigned a complex analytics platform, reducing task completion time by 40%...</span>
+                                <span class="excerpt-full">Redesigned a complex analytics platform, reducing task completion time by 40% through improved information architecture, streamlined workflows, and data visualization enhancements. Collaborated with cross-functional teams to deliver a user-centered solution that increased user satisfaction by 60%.</span>
+                            </p>
+                            <button class="read-more-btn">Read more</button>
+                        </div>
+                    </article>
+
+                    <article class="post-card">
+                        <div class="post-image" style="background-color: #d9edeb;"></div>
+                        <div class="post-content">
+                            <h3 class="post-title">5 things I learned designing for FinTech</h3>
+                            <p class="post-excerpt">
+                                <span class="excerpt-short">Security and trust are paramount. Users need to feel confident...</span>
+                                <span class="excerpt-full">Security and trust are paramount. Users need to feel confident their financial data is safe. This means designing transparent security features, clear feedback, and building trust through consistent, professional design patterns. Working in FinTech taught me the critical balance between innovation and regulatory compliance.</span>
+                            </p>
+                            <button class="read-more-btn">Read more</button>
+                        </div>
+                    </article>
+
+                    <article class="post-card">
+                        <div class="post-image" style="background-color: #fae3d9;"></div>
+                        <div class="post-content">
+                            <h3 class="post-title">Design systems are a team sport</h3>
+                            <p class="post-excerpt">
+                                <span class="excerpt-short">Building a design system isn't just about creating components...</span>
+                                <span class="excerpt-full">Building a design system isn't just about creating components and guidelines. It's about fostering collaboration across design, engineering, and product teams. The most successful design systems are built through continuous communication, regular feedback loops, and shared ownership of the system's evolution.</span>
+                            </p>
+                            <button class="read-more-btn">Read more</button>
+                        </div>
+                    </article>
+
+                    <article class="post-card hidden-post">
+                        <div class="post-image" style="background-color: #f0e7ff;"></div>
+                        <div class="post-content">
+                            <h3 class="post-title">The power of micro-interactions</h3>
+                            <p class="post-excerpt">
+                                <span class="excerpt-short">Small details make a huge difference in user experience...</span>
+                                <span class="excerpt-full">Small details make a huge difference in user experience. Micro-interactions provide feedback, guide users, and add delight to every touchpoint. From button states to loading animations, these subtle moments of interaction can transform a functional interface into an engaging experience that users love.</span>
+                            </p>
+                            <button class="read-more-btn">Read more</button>
+                        </div>
+                    </article>
+
+                    <article class="post-card hidden-post">
+                        <div class="post-image" style="background-color: #ffe8e8;"></div>
+                        <div class="post-content">
+                            <h3 class="post-title">How to conduct better user research</h3>
+                            <p class="post-excerpt">
+                                <span class="excerpt-short">User research is the foundation of great design decisions...</span>
+                                <span class="excerpt-full">User research is the foundation of great design decisions. Learn to ask the right questions, observe without bias, and synthesize insights that drive meaningful product improvements. Effective research combines qualitative and quantitative methods to build a complete picture of user needs and behaviors.</span>
+                            </p>
+                            <button class="read-more-btn">Read more</button>
+                        </div>
+                    </article>
+
+                    <article class="post-card hidden-post">
+                        <div class="post-image" style="background-color: #e8f4f8;"></div>
+                        <div class="post-content">
+                            <h3 class="post-title">Designing for accessibility from day one</h3>
+                            <p class="post-excerpt">
+                                <span class="excerpt-short">Accessibility isn't an afterthought, it's a core design principle...</span>
+                                <span class="excerpt-full">Accessibility isn't an afterthought, it's a core design principle. By considering diverse user needs from the start, we create products that work better for everyone. This includes proper color contrast, keyboard navigation, screen reader support, and semantic HTML structure.</span>
+                            </p>
+                            <button class="read-more-btn">Read more</button>
+                        </div>
+                    </article>
+
+                    <article class="post-card hidden-post">
+                        <div class="post-image" style="background-color: #fff4e6;"></div>
+                        <div class="post-content">
+                            <h3 class="post-title">Mobile-first design strategies</h3>
+                            <p class="post-excerpt">
+                                <span class="excerpt-short">Starting with mobile constraints forces better design decisions...</span>
+                                <span class="excerpt-full">Starting with mobile constraints forces better design decisions. When you design for the smallest screen first, you prioritize content, simplify navigation, and focus on essential features. This approach creates cleaner, more focused experiences that scale beautifully to larger screens.</span>
+                            </p>
+                            <button class="read-more-btn">Read more</button>
+                        </div>
+                    </article>
+
+                    <article class="post-card hidden-post">
+                        <div class="post-image" style="background-color: #e8f5e9;"></div>
+                        <div class="post-content">
+                            <h3 class="post-title">Prototyping for better feedback</h3>
+                            <p class="post-excerpt">
+                                <span class="excerpt-short">High-fidelity prototypes help stakeholders understand your vision...</span>
+                                <span class="excerpt-full">High-fidelity prototypes help stakeholders understand your vision and provide more meaningful feedback. Interactive prototypes bridge the gap between static designs and development, allowing teams to test flows, identify issues early, and align on the final product before writing a single line of code.</span>
+                            </p>
+                            <button class="read-more-btn">Read more</button>
+                        </div>
+                    </article>
+
+                    <article class="post-card hidden-post">
+                        <div class="post-image" style="background-color: #fce4ec;"></div>
+                        <div class="post-content">
+                            <h3 class="post-title">Dark mode best practices</h3>
+                            <p class="post-excerpt">
+                                <span class="excerpt-short">Dark mode isn't just inverting colors, it requires careful consideration...</span>
+                                <span class="excerpt-full">Dark mode isn't just inverting colors, it requires careful consideration of contrast, hierarchy, and color relationships. Pure black can cause eye strain, so use dark grays. Reduce saturation in colors, adjust shadows, and test thoroughly to ensure text remains readable and UI elements maintain proper emphasis.</span>
+                            </p>
+                            <button class="read-more-btn">Read more</button>
+                        </div>
+                    </article>
+                </div>
+
+                <button class="load-more-btn" id="loadMorePostsBtn">Load More</button>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <h3 class="footer-email">hamid.designer50@gmail.com</h3>
+                <p class="footer-subtitle">Open to freelance, full-time roles, and collaborations.</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">LinkedIn</a>
+                    <a href="#" class="footer-link">Dribbble</a>
+                    <a href="#" class="footer-link">Behance</a>
+                </div>
+                <p class="footer-copyright">© 2025 Hamid Ali</p>
+            </footer>
+
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
