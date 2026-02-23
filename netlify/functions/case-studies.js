@@ -1,0 +1,110 @@
+const { createClient } = require('@supabase/supabase-js');
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
+
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Content-Type': 'application/json',
+};
+
+function verifyToken(event) {
+  const authHeader = event.headers.authorization || event.headers.Authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) return false;
+  const token = authHeader.substring(7);
+  try {
+    const decoded = Buffer.from(token, 'base64').toString();
+    const [username] = decoded.split(':');
+    return username === process.env.ADMIN_USERNAME;
+  } catch {
+    return false;
+  }
+}
+
+exports.handler = async (event) => {
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
+
+  if (!verifyToken(event)) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+  }
+
+  // Extract ID from path: /.netlify/functions/case-studies or /.netlify/functions/case-studies/<id>
+  const pathParts = event.path.split('/').filter(Boolean);
+  const id = pathParts[pathParts.length - 1] !== 'case-studies' ? pathParts[pathParts.length - 1] : null;
+
+  try {
+    // GET all
+    if (event.httpMethod === 'GET' && !id) {
+      const { data, error } = await supabase
+        .from('case_studies')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return { statusCode: 200, headers, body: JSON.stringify(data) };
+    }
+
+    // GET one
+    if (event.httpMethod === 'GET' && id) {
+      const { data, error } = await supabase
+        .from('case_studies')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) throw error;
+      if (!data) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Not found' }) };
+      return { statusCode: 200, headers, body: JSON.stringify(data) };
+    }
+
+    // POST create
+    if (event.httpMethod === 'POST') {
+      const body = JSON.parse(event.body || '{}');
+      const { data, error } = await supabase
+        .from('case_studies')
+        .insert([{ ...body, created_at: new Date().toISOString(), updated_at: new Date().toISOString() }])
+        .select()
+        .single();
+
+      if (error) throw error;
+      return { statusCode: 201, headers, body: JSON.stringify(data) };
+    }
+
+    // PUT update
+    if (event.httpMethod === 'PUT' && id) {
+      const body = JSON.parse(event.body || '{}');
+      const { data, error } = await supabase
+        .from('case_studies')
+        .update({ ...body, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return { statusCode: 200, headers, body: JSON.stringify(data) };
+    }
+
+    // DELETE
+    if (event.httpMethod === 'DELETE' && id) {
+      const { error } = await supabase
+        .from('case_studies')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+    }
+
+    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+
+  } catch (error) {
+    console.error('Case studies error:', error);
+    return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
+  }
+};

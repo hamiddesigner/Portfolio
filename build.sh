@@ -1,0 +1,30 @@
+#!/bin/bash
+# Build script for Netlify deployment
+
+# Create publish directory
+echo "Creating publish directory..."
+rm -rf _site
+mkdir -p _site
+
+# Copy main portfolio files
+echo "Copying portfolio files..."
+cp *.html _site/ 2>/dev/null || true
+cp *.css _site/ 2>/dev/null || true
+cp *.js _site/ 2>/dev/null || true
+cp *.toml _site/ 2>/dev/null || true
+
+# Build admin app
+echo "Installing admin dependencies..."
+cd admin
+npm ci
+
+echo "Building admin React app..."
+npm run build
+cd ..
+
+# Copy admin build to _site/admin
+echo "Copying admin app..."
+cp -r admin/build _site/admin
+
+echo "Build complete! Files ready in _site/"
+

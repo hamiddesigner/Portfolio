@@ -1,6 +1,70 @@
 [build]
-  publish = "."
-  command = "echo 'No build required for static site'"
+  publish = "_site"
+  command = "chmod +x build.sh && ./build.sh"
+
+[functions]
+  directory = "netlify/functions"
+
+# ─── API Redirects → Netlify Functions ───────────────────────────────────────
+
+[[redirects]]
+  from = "/api/auth/*"
+  to = "/.netlify/functions/auth/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/case-studies/*"
+  to = "/.netlify/functions/case-studies/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/case-studies"
+  to = "/.netlify/functions/case-studies"
+  status = 200
+
+[[redirects]]
+  from = "/api/posts/*"
+  to = "/.netlify/functions/posts/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/posts"
+  to = "/.netlify/functions/posts"
+  status = 200
+
+[[redirects]]
+  from = "/api/content/*"
+  to = "/.netlify/functions/page-content/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/content"
+  to = "/.netlify/functions/page-content"
+  status = 200
+
+[[redirects]]
+  from = "/api/settings"
+  to = "/.netlify/functions/settings"
+  status = 200
+
+[[redirects]]
+  from = "/api/availability"
+  to = "/.netlify/functions/availability"
+  status = 200
+
+# ─── Admin SPA ───────────────────────────────────────────────────────────────
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+# ─── Catch-all for static site ───────────────────────────────────────────────
 
 [[redirects]]
   from = "/*"
