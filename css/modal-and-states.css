@@ -1,0 +1,341 @@
+/* ============================================================================
+   PASSWORD MODAL & LOADING STATES CSS
+   Add this to your main styles.css file or create as separate CSS file
+   ============================================================================ */
+
+/* Password Modal */
+.password-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-modal.active {
+    display: flex;
+}
+
+.password-modal .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.password-modal .modal-content {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 420px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.password-modal .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: #666;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.password-modal .modal-close:hover {
+    background: #f0f0f0;
+    color: #000;
+}
+
+.password-modal .lock-icon {
+    font-size: 56px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.password-modal h2 {
+    text-align: center;
+    margin-bottom: 12px;
+    font-size: 24px;
+    color: #1a1a1a;
+}
+
+.password-modal p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.password-modal input,
+.password-modal textarea {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+}
+
+.password-modal input:focus,
+.password-modal textarea:focus {
+    outline: none;
+    border-color: #000;
+}
+
+.password-modal textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.password-modal input.shake {
+    animation: shake 0.5s;
+    border-color: #dc3545;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+    20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+.password-modal .btn-primary {
+    width: 100%;
+    padding: 14px 24px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.password-modal .btn-primary:hover:not(:disabled) {
+    background: #333;
+    transform: translateY(-1px);
+}
+
+.password-modal .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.password-modal .error-message {
+    color: #dc3545;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 12px;
+    padding: 8px;
+    border-radius: 4px;
+    background: #fff5f5;
+}
+
+.password-modal .btn-link {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 16px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+    transition: color 0.2s ease;
+}
+
+.password-modal .btn-link:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.password-modal .success-icon {
+    font-size: 72px;
+    text-align: center;
+    color: #28a745;
+    margin-bottom: 20px;
+    animation: scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+/* Loading Spinner */
+.loading-spinner,
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Empty & Error States */
+.empty-state,
+.error-state,
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.empty-state p,
+.error-state p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Lock Overlay on Work Cards */
+.case-card.locked-case {
+    position: relative;
+    cursor: pointer;
+}
+
+.case-card.locked-case::after {
+    content: '🔒';
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.case-card.locked-case:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.case-card.clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.case-card.clickable:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Lock icon in case title row */
+.case-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.case-title-row .lock-icon {
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .password-modal .modal-content {
+        padding: 32px 24px;
+        max-width: 95%;
+    }
+    
+    .password-modal h2 {
+        font-size: 20px;
+    }
+    
+    .password-modal .lock-icon,
+    .password-modal .success-icon {
+        font-size: 48px;
+    }
+}
+
+/* Welcome Message */
+.welcome-message {
+    background: #f8f9fa;
+    border-left: 4px solid #000;
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.welcome-message p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.welcome-message strong {
+    color: #000;
+}
