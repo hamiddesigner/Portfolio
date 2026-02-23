@@ -1,6 +1,8 @@
 #!/bin/bash
 # Build script for Netlify deployment
 
+set -e  # Exit on error
+
 # Create publish directory
 echo "Creating publish directory..."
 rm -rf _site
@@ -16,7 +18,7 @@ cp *.toml _site/ 2>/dev/null || true
 # Build admin app
 echo "Installing admin dependencies..."
 cd admin
-npm ci
+npm install --legacy-peer-deps
 
 echo "Building admin React app..."
 npm run build
