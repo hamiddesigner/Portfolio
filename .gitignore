@@ -7,9 +7,9 @@
 node_modules/
 
 # Build outputs
-admin/build/
 dist/
 _site/
+# Note: admin/build is committed for Netlify deployment
 
 # OS
 .DS_Store
