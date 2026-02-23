@@ -646,3 +646,121 @@
     justify-content: center;
   }
 }
+
+/* CV/Resume Upload Section */
+.cv-upload-section {
+  margin-top: 16px;
+}
+
+.cv-uploaded {
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.cv-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.cv-file-icon {
+  width: 48px;
+  height: 48px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.cv-details {
+  flex: 1;
+}
+
+.cv-filename {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.cv-upload-date {
+  font-size: 13px;
+  color: #999;
+}
+
+.cv-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.cv-upload-empty {
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  padding: 48px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cv-upload-empty p {
+  color: #666;
+  margin: 0;
+}
+
+.upload-btn {
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.btn-danger-outline {
+  padding: 8px 16px;
+  border: 1px solid #e74c3c;
+  background: transparent;
+  color: #e74c3c;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-danger-outline:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+.section-description {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .cv-uploaded {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cv-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .cv-actions button,
+  .cv-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}

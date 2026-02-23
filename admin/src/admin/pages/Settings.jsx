@@ -72,22 +72,52 @@ function Settings() {
     lastBackup: null
   });
 
-  // Danger Zone modals
+  // CV/Resume Upload
+  const [cvSettings, setCvSettings] = useState({
+    cvUrl: '',
+    fileName: '',
+    uploadDate: null
+  });
+
+  // Danger Zone  modals
   const [showConfirmModal, setShowConfirmModal] = useState(null);
   const [confirmText, setConfirmText] = useState('');
 
   // Load settings from localStorage
   useEffect(() => {
-    const savedSettings = localStorage.getItem('admin_settings');
-    if (savedSettings) {
-      const data = JSON.parse(savedSettings);
-      if (data.profile) setProfile(data.profile);
-      if (data.contactSettings) setContactSettings(data.contactSettings);
-      if (data.analytics) setAnalytics(data.analytics);
-      if (data.siteSettings) setSiteSettings(data.siteSettings);
-      if (data.maintenance) setMaintenance(data.maintenance);
-      if (data.backupSettings) setBackupSettings(data.backupSettings);
-    }
+    const loadSettings = async () => {
+      try {
+        // Try to load from API first
+        const response = await fetch('/api/settings', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.cvSettings) setCvSettings(data.cvSettings);
+          // You can load other settings from API here too
+        }
+      } catch (error) {
+        console.error('Failed to load settings from API:', error);
+      }
+
+      // Fallback to localStorage
+      const savedSettings = localStorage.getItem('admin_settings');
+      if (savedSettings) {
+        const data = JSON.parse(savedSettings);
+        if (data.profile) setProfile(data.profile);
+        if (data.contactSettings) setContactSettings(data.contactSettings);
+        if (data.analytics) setAnalytics(data.analytics);
+        if (data.siteSettings) setSiteSettings(data.siteSettings);
+        if (data.maintenance) setMaintenance(data.maintenance);
+        if (data.backupSettings) setBackupSettings(data.backupSettings);
+        if (!cvSettings.cvUrl && data.cvSettings) setCvSettings(data.cvSettings);
+      }
+    };
+    
+    loadSettings();
   }, []);
 
   // Save all settings to localStorage
@@ -98,6 +128,7 @@ function Settings() {
       analytics,
       siteSettings,
       maintenance,
+      cvSettings,
       backupSettings,
       lastUpdated: new Date().toISOString()
     };
@@ -259,6 +290,101 @@ function Settings() {
   const toggleAutoBackup = () => {
     setBackupSettings({ ...backupSettings, autoBackup: !backupSettings.autoBackup });
     saveAllSettings();
+  };
+
+  // CV/Resume handlers
+  const handleCVUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!validTypes.includes(file.type)) {
+      toast.error('Please upload a PDF or Word document');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size must be less than 5MB');
+      return;
+    }
+
+    try {
+      toast.loading('Uploading CV...');
+      
+      // For now, convert to base64 and store in settings
+      // In production, you'd upload to cloud storage (S3, Supabase Storage, etc.)
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64File = reader.result;
+        
+        const cvData = {
+          cvUrl: base64File, // Base64 data URL
+          fileName: file.name,
+          uploadDate: new Date().toISOString()
+        };
+
+        // Save to backend via API
+        try {
+          const response = await fetch('/api/settings', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+            },
+            body: JSON.stringify({ cvSettings: cvData })
+          });
+
+          if (!response.ok) throw new Error('Failed to save CV');
+
+          setCvSettings(cvData);
+          saveAllSettings();
+          toast.dismiss();
+          toast.success('CV uploaded successfully');
+        } catch (error) {
+          toast.dismiss();
+          toast.error('Failed to upload CV');
+          console.error(error);
+        }
+      };
+      
+      reader.readAsDataURL(file);
+    } catch (error) {
+      toast.dismiss();
+      toast.error('Failed to upload CV');
+      console.error(error);
+    }
+    
+    event.target.value = '';
+  };
+
+  const removeCv = async () => {
+    try {
+      const emptyData = {
+        cvUrl: '',
+        fileName: '',
+        uploadDate: null
+      };
+
+      const response = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+        },
+        body: JSON.stringify({ cvSettings: emptyData })
+      });
+
+      if (!response.ok) throw new Error('Failed to remove CV');
+
+      setCvSettings(emptyData);
+      saveAllSettings();
+      toast.success('CV removed');
+    } catch (error) {
+      toast.error('Failed to remove CV');
+      console.error(error);
+    }
   };
 
   // Danger Zone handlers
@@ -536,6 +662,60 @@ function Settings() {
           <Save size={16} />
           Change Password
         </button>
+      </div>
+
+      {/* CV/Resume Upload */}
+      <div className="settings-section">
+        <h2>CV / Resume</h2>
+        <p className="section-description">Upload your CV/Resume to make it available for download on your portfolio</p>
+        
+        <div className="cv-upload-section">
+          {cvSettings.fileName ? (
+            <div className="cv-uploaded">
+              <div className="cv-info">
+                <div className="cv-file-icon">
+                  <Download size={24} />
+                </div>
+                <div className="cv-details">
+                  <p className="cv-filename">{cvSettings.fileName}</p>
+                  <p className="cv-upload-date">
+                    Uploaded {new Date(cvSettings.uploadDate).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+              <div className="cv-actions">
+                <a 
+                  href={cvSettings.cvUrl} 
+                  download={cvSettings.fileName}
+                  className="btn-secondary"
+                >
+                  <Download size={16} />
+                  Download
+                </a>
+                <button className="btn-danger-outline" onClick={removeCv}>
+                  <Trash2 size={16} />
+                  Remove
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="cv-upload-empty">
+              <Upload size={32} color="#999" />
+              <p>No CV uploaded yet</p>
+              <label className="btn-primary upload-btn">
+                <Upload size={16} />
+                Upload CV
+                <input 
+                  type="file" 
+                  accept=".pdf,.doc,.docx" 
+                  onChange={handleCVUpload}
+                  style={{ display: 'none' }}
+                />
+              </label>
+              <p className="field-hint">Accepted formats: PDF, DOC, DOCX (Max 5MB)</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Contact Settings */}

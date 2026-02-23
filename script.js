@@ -804,4 +804,47 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Download CV Functionality
+    async function setupDownloadCVButtons() {
+        const downloadButtons = document.querySelectorAll('.btn-secondary');
+        
+        downloadButtons.forEach(button => {
+            if (button.textContent.includes('Download CV')) {
+                button.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    
+                    try {
+                        // Fetch settings from API
+                        const response = await fetch('/api/settings');
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch settings');
+                        }
+                        
+                        const settings = await response.json();
+                        const cvSettings = settings.cvSettings;
+                        
+                        if (cvSettings && cvSettings.cvUrl) {
+                            // Trigger download
+                            const link = document.createElement('a');
+                            link.href = cvSettings.cvUrl;
+                            link.download = cvSettings.fileName || 'Hamid-Ali-CV.pdf';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        } else {
+                            // Fallback if no CV uploaded
+                            alert('CV not available. Please contact me for my resume.');
+                        }
+                    } catch (error) {
+                        console.error('Error downloading CV:', error);
+                        alert('Unable to download CV. Please try again later or contact me directly.');
+                    }
+                });
+            }
+        });
+    }
+
+    // Initialize Download CV buttons
+    setupDownloadCVButtons();
 });
