@@ -17,12 +17,28 @@ exports.handler = async (event, context) => {
     return { statusCode: 200, headers, body: '' };
   }
 
-  const path = event.path.replace('/.netlify/functions/auth', '');
+  // Extract path - handle both /api/auth/* and /.netlify/functions/auth/*
+  let path = event.path;
+  if (path.includes('/.netlify/functions/auth')) {
+    path = path.replace('/.netlify/functions/auth', '');
+  } else if (path.includes('/api/auth')) {
+    path = path.replace('/api/auth', '');
+  }
+  
+  // Default to /login if no path
+  if (!path || path === '') {
+    path = '/login';
+  }
+
+  console.log('Auth function - Path:', path, 'Method:', event.httpMethod);
 
   try {
     // Login
     if (event.httpMethod === 'POST' && path === '/login') {
       const { username, password } = JSON.parse(event.body);
+
+      console.log('Login attempt - Username:', username);
+      console.log('Expected username:', process.env.ADMIN_USERNAME);
 
       // Check credentials against environment variables
       if (

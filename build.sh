@@ -15,21 +15,15 @@ cp *.css _site/ 2>/dev/null || true
 cp *.js _site/ 2>/dev/null || true
 cp *.toml _site/ 2>/dev/null || true
 
-# Build admin app on Netlify
-echo "Installing admin dependencies..."
-cd admin
+# Copy pre-built admin app (built locally with updated auth)
+echo "Copying pre-built admin app..."
+if [ -d "admin/build" ]; then
+  cp -r admin/build _site/admin
+  echo "✓ Admin app copied successfully"
+else
+  echo "✗ ERROR: admin/build directory not found!"
+  exit 1
+fi
 
-# Remove problematic lock file and reinstall
-rm -f package-lock.json
-npm install --legacy-peer-deps --no-audit --prefer-offline
-
-echo "Building admin React app..."
-CI=false GENERATE_SOURCEMAP=false npm run build
-cd ..
-
-# Copy admin build to _site/admin
-echo "Copying admin app..."
-cp -r admin/build _site/admin
-
-echo "Build complete! Files ready in _site/"
+echo "✓ Build complete! Files ready in _site/"
 

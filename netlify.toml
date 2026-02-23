@@ -69,7 +69,9 @@
 
 # ─── Catch-all for static site ───────────────────────────────────────────────
 
+# Only redirect non-existent routes to index.html (for SPA routing)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
