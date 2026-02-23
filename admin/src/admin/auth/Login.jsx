@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LogIn, Lock, Eye, EyeOff } from 'lucide-react';
+import { LogIn, Lock, Eye, EyeOff, User } from 'lucide-react';
 import { useAuth } from './AuthContext';
 import toast from 'react-hot-toast';
 import './Login.css';
 
 function Login() {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,45 +17,24 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!password.trim()) {
+    if (!username.trim() || !password.trim()) {
+      toast.error('Please enter both username and password');
       return;
     }
 
     setIsLoading(true);
 
-    // Simulate a slight delay for better UX
-    setTimeout(() => {
-      const success = login(password);
-      setIsLoading(false);
+    try {
+      const success = await login(username, password);
       
       if (success) {
         navigate('/admin/dashboard');
-      } else {
-        setPassword('');
       }
-    }, 500);
-  };
-
-  const handleForgotPassword = () => {
-    // Get admin email from localStorage (will be set in Settings page)
-    const adminEmail = localStorage.getItem('adminEmail');
-    
-    if (!adminEmail) {
-      toast.error('Please configure your admin email in Settings first');
-      return;
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
     }
-
-    // Get the stored password
-    const storedPassword = localStorage.getItem('adminPassword') || 'admin123';
-    
-    // In production, this would send an email via backend API
-    // For now, we'll show a toast notification
-    toast.success(`Password sent to ${adminEmail}\n\nYour password is: ${storedPassword}`, {
-      duration: 6000,
-      style: {
-        maxWidth: '400px',
-      }
-    });
   };
 
   return (
@@ -75,7 +55,7 @@ function Login() {
             <Lock size={32} />
           </div>
           <h1>Admin Login</h1>
-          <p>Enter your password to access the admin panel</p>
+          <p>Enter your credentials to access the admin panel</p>
         </motion.div>
 
         <motion.form
@@ -86,6 +66,23 @@ function Login() {
           transition={{ delay: 0.3, duration: 0.5 }}
         >
           <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <div className="input-wrapper">
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter username"
+                disabled={isLoading}
+                autoFocus
+                required
+              />
+              <User className="input-icon" size={18} />
+            </div>
+          </div>
+
+          <div className="form-group">
             <label htmlFor="password">Password</label>
             <div className="input-wrapper">
               <input
@@ -93,9 +90,8 @@ function Login() {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter admin password"
+                placeholder="Enter password"
                 disabled={isLoading}
-                autoFocus
                 required
               />
               <button

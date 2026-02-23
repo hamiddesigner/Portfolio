@@ -1,39 +1,68 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { authAPI } from '../../services/api';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   // Check authentication status on mount
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAuthenticated');
-    if (authStatus === 'true') {
-      setIsAuthenticated(true);
+    const token = localStorage.getItem('admin_token');
+    if (token) {
+      // Verify token with backend
+      authAPI.verify()
+        .then((data) => {
+          setIsAuthenticated(true);
+          setUser(data.user);
+        })
+        .catch(() => {
+          // Invalid token, clear it
+          localStorage.removeItem('admin_token');
+          setIsAuthenticated(false);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
-  const login = (password) => {
-    const adminPassword = process.env.REACT_APP_ADMIN_PASSWORD;
-    
-    if (password === adminPassword) {
-      setIsAuthenticated(true);
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('loginTime', new Date().toISOString());
-      toast.success('Successfully logged in!');
-      return true;
-    } else {
-      toast.error('Incorrect password. Please try again.');
+  const login = async (username, password) => {
+    try {
+      const data = await authAPI.login(username, password);
+      
+      if (data.success && data.token) {
+        localStorage.setItem('admin_token', data.token);
+        localStorage.setItem('loginTime', new Date().toISOString());
+        setIsAuthenticated(true);
+        setUser(data.user);
+        toast.success('Successfully logged in!');
+        return true;
+      } else {
+        toast.error('Login failed. Please try again.');
+        return false;
+      }
+    } catch (error) {
+      toast.error(error.message || 'Incorrect credentials. Please try again.');
       return false;
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await authAPI.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    
     setIsAuthenticated(false);
-    localStorage.removeItem('isAuthenticated');
+    setUser(null);
+    localStorage.removeItem('admin_token');
     localStorage.removeItem('loginTime');
     toast.success('Successfully logged out');
   };
@@ -41,6 +70,7 @@ export function AuthProvider({ children }) {
   const value = {
     isAuthenticated,
     isLoading,
+    user,
     login,
     logout
   };
