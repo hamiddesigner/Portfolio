@@ -30,15 +30,47 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: '' };
   }
 
+  const pathParts = event.path.split('/').filter(Boolean);
+  const id = pathParts[pathParts.length - 1] !== 'posts' ? pathParts[pathParts.length - 1] : null;
+
+  // Public GET requests (no auth required for reading published posts)
+  if (event.httpMethod === 'GET') {
+    try {
+      // GET all published posts (public)
+      if (!id) {
+        const { data, error } = await supabase
+          .from('posts')
+          .select('*')
+          .eq('status', 'published')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        return { statusCode: 200, headers, body: JSON.stringify(data) };
+      }
+      
+      // GET single post by ID (public)
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('id', id)
+        .eq('status', 'published')
+        .single();
+
+      if (error) throw error;
+      return { statusCode: 200, headers, body: JSON.stringify(data) };
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
+    }
+  }
+
+  // All other methods require authentication
   if (!verifyToken(event)) {
     return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
   }
 
-  const pathParts = event.path.split('/').filter(Boolean);
-  const id = pathParts[pathParts.length - 1] !== 'posts' ? pathParts[pathParts.length - 1] : null;
-
   try {
-    // GET all
+    // Admin GET all (authenticated - includes drafts)
     if (event.httpMethod === 'GET' && !id) {
       const { data, error } = await supabase
         .from('posts')
