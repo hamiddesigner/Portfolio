@@ -124,14 +124,6 @@ function Login() {
               </>
             )}
           </motion.button>
-
-          <button
-            type="button"
-            className="forgot-password"
-            onClick={handleForgotPassword}
-          >
-            Forgot password?
-          </button>
         </motion.form>
 
         <motion.div
