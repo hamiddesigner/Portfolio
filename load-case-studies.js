@@ -8,6 +8,7 @@
         const response = await fetch('/api/case-studies');
         if (!response.ok) {
             console.error('Failed to fetch case studies:', response.statusText);
+            showError();
             return;
         }
 
@@ -17,19 +18,23 @@
         // Find the section header
         const sectionHeader = caseStudiesContainer.querySelector('.section-header');
         
-        // Clear existing hardcoded case studies
-        const existingCards = caseStudiesContainer.querySelectorAll('.case-card');
-        existingCards.forEach(card => card.remove());
+        // Remove loading spinner
+        const loadingSpinner = caseStudiesContainer.querySelector('.loading-spinner');
+        if (loadingSpinner) {
+            loadingSpinner.remove();
+        }
 
         // Filter only published case studies
         const publishedCases = caseStudies.filter(cs => cs.status === 'published');
 
         if (publishedCases.length === 0) {
-            const emptyMessage = document.createElement('p');
-            emptyMessage.style.textAlign = 'center';
-            emptyMessage.style.padding = '40px';
-            emptyMessage.style.color = '#666';
-            emptyMessage.textContent = 'No case studies available yet. Add some from the admin panel!';
+            const emptyMessage = document.createElement('div');
+            emptyMessage.className = 'empty-state';
+            emptyMessage.style.cssText = 'text-align: center; padding: 60px 20px; color: #999;';
+            emptyMessage.innerHTML = `
+                <p style="font-size: 18px; margin-bottom: 8px;">No case studies yet</p>
+                <p style="font-size: 14px;">Check back soon for new work!</p>
+            `;
             caseStudiesContainer.appendChild(emptyMessage);
             return;
         }
@@ -42,6 +47,14 @@
 
     } catch (error) {
         console.error('Error loading case studies:', error);
+        showError();
+    }
+
+    function showError() {
+        const loadingSpinner = caseStudiesContainer.querySelector('.loading-spinner');
+        if (loadingSpinner) {
+            loadingSpinner.innerHTML = '<p style="color: #e74c3c;">Failed to load case studies. Please try again later.</p>';
+        }
     }
 })();
 
