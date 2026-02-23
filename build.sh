@@ -15,15 +15,18 @@ cp *.css _site/ 2>/dev/null || true
 cp *.js _site/ 2>/dev/null || true
 cp *.toml _site/ 2>/dev/null || true
 
-# Copy pre-built admin app (committed to repo)
-echo "Copying pre-built admin app..."
-if [ -d "admin/build" ]; then
-  cp -r admin/build _site/admin
-  echo "Admin app copied successfully"
-else
-  echo "ERROR: admin/build directory not found!"
-  exit 1
-fi
+# Build admin app on Netlify
+echo "Installing admin dependencies..."
+cd admin
+npm install --legacy-peer-deps
+
+echo "Building admin React app..."
+GENERATE_SOURCEMAP=false npm run build
+cd ..
+
+# Copy admin build to _site/admin
+echo "Copying admin app..."
+cp -r admin/build _site/admin
 
 echo "Build complete! Files ready in _site/"
 

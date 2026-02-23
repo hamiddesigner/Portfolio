@@ -2,6 +2,9 @@
   publish = "_site"
   command = "chmod +x build.sh && ./build.sh"
 
+[build.environment]
+  NODE_VERSION = "18"
+
 [functions]
   directory = "netlify/functions"
 
